@@ -1,10 +1,12 @@
 from selenium import webdriver
 from selenium_testing_library import Screen
 from selenium.webdriver.chrome.options import Options
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
+print(os.environ.get("URL"))
 class BaseDriver:
-
     def _init_(self):
         self.options = Options()
         self.options.add_argument('--no-sandbox')
@@ -16,9 +18,8 @@ class BaseDriver:
         self.screen = Screen(self.driver)
 
     def browse_open(self):
-        self.driver.get(URL)
+        self.driver.get(os.environ.get("URL"))
         self.driver.delete_all_cookies()
 
     def closed_browser(self):
         self.driver.quit()
-
