@@ -1,66 +1,68 @@
 from behave import given, when, then
 from src.functions.function import Shopping
 
-
-@given('un standard_user es un cliente')
+# Scenario 1
+@given('a standard_user is a customer')
 def step_login(context):
     context.test = Shopping()
 
 
-@when('digita su usuario y contraseña')
+@when('they enter their username and password')
 def step_impl(context):
     context.test.login()
 
 
-@then('dara clic en el boton login e iniciara sesion')
+@then('they click the login button and log in')
 def button_login(context):
     context.test.click_button_login()
 
+# Scenario 2
 
-@given('standard_user inicia sesion correctamente')
+@given('standard_user logs in successfully')
 def login_success(context):
     step_login(context)
     step_impl(context)
     button_login(context)
 
 
-@given('selecciona un producto')
+@given('selects a product')
 def select_product(context):
     context.test.list_products()
 
 
-@when('confirma el producto')
+@when('confirm the product')
 def confirm_product(context):
     context.test.confirm_product()
 
 
-@when('diligencia la informacion de pedido')
+@when('fill in the order information')
 def register_info(context):
     context.test.register_info()
 
 
-@then('podra realizar la compra')
+@then('they should be able to complete the purchase')
 def finish_buy(context):
     context.test.finish_buy()
 
+# Scenario 3
 
-@given('standard_user inicia sesion satisfatoriamente')
+@given('standard_user logs in correctly')
 def login_success_2(context):
     step_login(context)
     step_impl(context)
     button_login(context)
 
 
-@given('tiene un producto agregado en el carro de compras')
+@given('has a product added to the shopping cart')
 def product_added(context):
     select_product(context)
 
 
-@when('da click en el boton remove de un producto que no desea comprar')
+@when('they click the remove button for a product they dont want to buy')
 def product_remove(context):
     context.test.product_remove()
 
 
-@then('regresara a la pagina principal de productos')
+@then('they will return to the main product page')
 def return_shopping(context):
     context.test.return_shopping()

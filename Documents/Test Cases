@@ -1,0 +1,105 @@
+
+*PRESENTACION CASOS DE PRUEBA USANDO LENGUAJE GHERKIN*
+
+Objetivo : Establecer casos de prueba para garantizar la calidad de la página Swag Labs de Ecommerce
+
+
+Feature: usuario puede loguearse en la pagina
+
+	Scenario: Login correcto
+	Given un usuario que introduce <user_name> e introduce una contrasena en el campo <password>
+	When se hace click en el <boton>
+	Then debería cargarse la <pagina>
+	And los siguientes id de: <productos>
+
+	Examples:
+	| user_name 				| password 			| boton    	| pagina    | productos			|
+	| standard_user  			| secret_sauce      | login 	| inventory	| 4, 0, 1, 5, 2, 3	|
+	| problem_user 				| secret_sauce      | login 	| inventory | 5, 1, 2, 6, 3, 4	|
+	| performance_glitch_user 	| secret_sauce      | login 	| inventory | 4, 0, 1, 5, 2, 3	|
+	| error_user 				| secret_sauce      | login 	| inventory | 4, 0, 1, 5, 2, 3	|
+	| visual_user 				| secret_sauce      | login 	| inventory | 4, 0, 1, 5, 2, 3	|
+
+	Scenario: Login incorrecto
+	Given un usuario que introduce su <user_name> e introduce una contrasena en el campo <password>
+	When se hace click en el <boton>
+	Then debería de mostrarse el mensaje <mensaje>
+	And no permitir el acceso a la pagina.
+
+	Examples:
+	| user_name 	    | password 			| boton    	| mensaje                                                                   |
+	|         			|      				| login 	| Epic sadface: Username is  required                                       |
+	|         			| secret_sauce		| login 	| Epic sadface: Username is required  										|
+	|standard_user  	| 12221261821    	| login 	| Epic sadface: Username and password do not match any user in this service |
+	|standard_user	 	|					| Login     | Epic sadface: Password is required 										|
+	|prueba  			| secret_sauce    	| login 	| Epic sadface: Username and password do not match any user in this service |
+
+
+Feature: usuario puede observar menu lateral
+
+	Scenario: navegacion menu lateral
+	Given como un usuario logueado satisfactoriamente
+	And se encuentra en el menu lateral izquierdo de la pagina
+	When se hace click a la siguiente <opcion_menu>
+	Then debería mostrar la siguiente URL <URL>
+
+	Examples:
+	| opcion_menu 				| URL 			 								|
+	| All items  				| https://www.saucedemo.com/inventory.html	  	|
+	| About 					| https://saucelabs.com/      					|
+	| Logout 					| https://www.saucedemo.com/      				|
+	| Reset App State 			| https://www.saucedemo.com/inventory.html    	|
+
+
+Feature: usuario  puede listar productos
+
+	Scenario: ver cuadricula de productos
+	Given como un usuario
+	When se loguea satisfactoriamente
+	Then debería observar la lista de productos con los siguientes parametros: (foto, nombre, descripcion, precio)
+	And un boton "add to cart".
+
+	Scenario: ordenamiento de productos
+	Given como un usuario logueado satisfactoriamente
+	When se hace click en la lista desplegable "Name": <lista>
+	Then debería ordenarse los productos asi: <id_productos>
+
+	Examples:
+	| user_name 				| lista 			 		| id_productos 		|
+	| standard_user  			| Name (A to Z)      		| 4, 0, 1, 5, 2, 3	|
+	| standard_user 			| Name (Z to A)      		| 3, 2, 5, 1, 0, 4	|
+	| standard_user 			| Price (low to high)      	| 2, 0, 1, 3, 4, 5	|
+	| standard_user 			| Price (high to low)      	| 5, 4, 3, 1, 0, 2	|
+
+
+Feature: usuario puede agregar/remover productos
+
+	Scenario: agregar productos al carrito de compras
+	Given como un usuario logueado satisfactoriamente
+	When se hace click en el boton "Add to cart" de un producto
+	Then debe agregarse el producto al carrito de compras.
+
+	Scenario: remover productos
+	Given como un usuario logueado satisfactoriamente
+	And tiene un producto agregado
+	When se hace click en el boton "remove" de un producto que no desea
+	Then debe eliminarse el producto del carrito de compras
+	And el boton pasara a llamarse "Add to cart"
+
+
+Feature: usuario puede hacer checkout a su carrito de compras
+
+	Scenario: checkout valido
+	Given como un usuario logueado satisfactoriamente
+	And tiene productos agregados en el carrito de compras
+	When se hace click en el boton "Checkout"
+	Then debera aparecer un formulario para digitar su informacion
+	And el resumen de la compra, para finalizarlo se da click en el boton "Finish"
+	And observa el siguiente mensaje "Thank you for your order!"
+
+	Scenario: checkout invalido
+	Given como un usuario logueado satisfactoriamente
+	And no tiene productos en el carrito de compras
+	When se hace click en el boton "Checkout"
+	Then debera aparecer un formulario para digitar su informacion
+	And el resumen de la compra en cero sin finalizar.

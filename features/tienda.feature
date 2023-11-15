@@ -1,23 +1,22 @@
-Feature: usuario puede loguearse en la pagina y comprar un producto
+ Feature: User can log in on the page / buy a product / remove product from shopping cart
 
-#	Scenario: Login correcto
-#		Given un standard_user es un cliente
-#		When digita su usuario y contraseña
-#		Then dara clic en el boton login e iniciara sesion
-#
-#
-#	Scenario: Buy product
-#		Given standard_user inicia sesion correctamente
-#		And selecciona un producto
-#		When  confirma el producto
-#		And diligencia la informacion de pedido
-#		Then podra realizar la compra
+	Scenario: Successful Login
+		Given a standard_user is a customer
+		When they enter their username and password
+		Then they click the login button and log in
 
-	Scenario: Remove product from shopping cart
-		Given standard_user inicia sesion satisfatoriamente
-		And tiene un producto agregado en el carro de compras
-		When da click en el boton remove de un producto que no desea comprar
-		Then regresara a la pagina principal de productos
+	Scenario: Buy Product
+		Given standard_user logs in successfully
+		And selects a product
+		When confirm the product
+		And fill in the order information
+		Then they should be able to complete the purchase
+
+	Scenario: Remove Product from Shopping Cart
+		Given standard_user logs in correctly
+		And has a product added to the shopping cart
+		When they click the remove button for a product they dont want to buy
+		Then they will return to the main product page
 
 
 
