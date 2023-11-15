@@ -1,14 +1,24 @@
-Feature: usuario puede loguearse en la pagina
+Feature: usuario puede loguearse en la pagina y comprar un producto
 
-	Scenario Outline: Login correcto
-	Given un usuario que introduce su <user_name> and su password <password>
-	When da click en el <boton>
-	Then debería cargarse la <pagina> junto con los siguientes id de <productos>
+	Scenario: Login correcto
+		Given un standard_user es un cliente
+		When digita su usuario y contraseña
+		Then dara clic en el boton login e iniciara sesion
 
-	Examples:
-	| user_name 				| password 			| boton    	| pagina    | productos			|
-	| standard_user  			| secret_sauce      | login 	| inventory	| 4, 0, 1, 5, 2, 3	|
-	| problem_user 				| secret_sauce      | login 	| inventory | 5, 1, 2, 6, 3, 4	|
-	| performance_glitch_user 	| secret_sauce      | login 	| inventory | 4, 0, 1, 5, 2, 3	|
-	| error_user 				| secret_sauce      | login 	| inventory | 4, 0, 1, 5, 2, 3	|
-	| visual_user 				| secret_sauce      | login 	| inventory | 4, 0, 1, 5, 2, 3	|
+
+	Scenario: Buy product
+		Given standard_user inicia sesion correctamente
+		And selecciona un producto
+		When  confirma el producto
+		And diligencia la informacion de pedido
+		Then podra realizar la compra
+
+	Scenario: Remove product from shopping cart
+		Given standard_user inicia sesion correctamente
+		And tiene un producto agregado en el carro de compras
+		When  da click en el botón "Remove" de un producto que no desea comprar
+		Then el producto debe eliminarse del carro de compras
+		And  regresar a la página de productos
+
+
+
