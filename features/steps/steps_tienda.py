@@ -18,7 +18,7 @@ def button_login(context):
 
 
 @given('standard_user inicia sesion correctamente')
-def loguin_success(context):
+def login_success(context):
     step_login(context)
     step_impl(context)
     button_login(context)
@@ -33,6 +33,7 @@ def select_product(context):
 def confirm_product(context):
     context.test.confirm_product()
 
+
 @when('diligencia la informacion de pedido')
 def register_info(context):
     context.test.register_info()
@@ -41,3 +42,25 @@ def register_info(context):
 @then('podra realizar la compra')
 def finish_buy(context):
     context.test.finish_buy()
+
+
+@given('standard_user inicia sesion satisfatoriamente')
+def login_success_2(context):
+    step_login(context)
+    step_impl(context)
+    button_login(context)
+
+
+@given('tiene un producto agregado en el carro de compras')
+def product_added(context):
+    select_product(context)
+
+
+@when('da click en el boton remove de un producto que no desea comprar')
+def product_remove(context):
+    context.test.product_remove()
+
+
+@then('regresara a la pagina principal de productos')
+def return_shopping(context):
+    context.test.return_shopping()

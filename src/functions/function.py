@@ -5,12 +5,15 @@ from selenium.webdriver.common.by import By
 
 class Shopping(BaseDriver):
 
+#funciones de scenario 1
     def login(self):
         self.driver.find_element(By.ID, 'user-name').send_keys("standard_user")
         self.driver.find_element(By.ID, 'password').send_keys("secret_sauce")
 
     def click_button_login(self):
         self.driver.find_element(By.ID, 'login-button').click()
+
+#funciones de scenario 2
 
     def list_products(self):
         self.driver.find_element(By.ID, 'add-to-cart-sauce-labs-backpack').click()
@@ -27,3 +30,11 @@ class Shopping(BaseDriver):
 
     def finish_buy(self):
         self.driver.find_element(By.ID, 'finish').click()
+
+#funciones de scenario 3
+
+    def product_remove(self):
+        self.driver.find_element(By.ID, 'remove-sauce-labs-backpack').click()
+
+    def return_shopping(self):
+        self.driver.find_element(By.ID, 'continue-shopping').click()
