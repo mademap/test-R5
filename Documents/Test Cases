@@ -53,7 +53,7 @@ Feature: usuario puede observar menu lateral
 
 Feature: usuario  puede listar productos
 
-   Scenario: Validar carga  exitosa de la página de Inventory
+    Scenario: Validar carga  exitosa de la página de Inventory
     Given El usuario accede a la página de Swag Labs
     When La página se carga completamente
     Then El usuario visualiza la página de Inventory donde se carga el listado de productos
