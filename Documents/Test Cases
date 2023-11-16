@@ -53,16 +53,27 @@ Feature: usuario puede observar menu lateral
 
 Feature: usuario  puede listar productos
 
+   Scenario: Validar carga  exitosa de la página de Inventory
+    Given El usuario accede a la página de Swag Labs
+    When La página se carga completamente
+    Then El usuario visualiza la página de Inventory donde se carga el listado de productos
+
 	Scenario: ver cuadricula de productos
 	Given como un usuario
 	When se loguea satisfactoriamente
 	Then debería observar la lista de productos con los siguientes parametros: (foto, nombre, descripcion, precio)
 	And un boton "add to cart".
 
+	Scenario: Confirmar que la información del producto se muestra correctamente
+    Given El usuario está en la página de productos de Swag Labs
+    When La página ha cargado completamente
+    Then Debería poder ver información precisa sobre el nombre, descripción, precio e imagen de cada producto
+
 	Scenario: ordenamiento de productos
 	Given como un usuario logueado satisfactoriamente
 	When se hace click en la lista desplegable "Name": <lista>
 	Then debería ordenarse los productos asi: <id_productos>
+
 
 	Examples:
 	| user_name 				| lista 			 		| id_productos 		|
@@ -79,12 +90,29 @@ Feature: usuario puede agregar/remover productos
 	When se hace click en el boton "Add to cart" de un producto
 	Then debe agregarse el producto al carrito de compras.
 
-	Scenario: remover productos
+	Scenario: remover productos desde la Card
 	Given como un usuario logueado satisfactoriamente
 	And tiene un producto agregado
 	When se hace click en el boton "remove" de un producto que no desea
 	Then debe eliminarse el producto del carrito de compras
 	And el boton pasara a llamarse "Add to cart"
+
+	Scenario: Remover producto del carrito de compras
+    Given el  usuario logueado satisfatoriamente
+    And tiene un producto agregado al carrito de compras
+    When da clic en el 'Remover' de un producto desde el carrito de compras
+    Then debe descontarsen las unidades
+    And podrá volver a  la página principal
+
+    Scenario: Actualización correcta del contador del carrito
+    Given El usuario ha agregado  o removido productos en el  carrito
+    When Verifica el contador del carrito
+    Then El contador debería reflejar el número correcto de productos en el carrito
+
+    Scenario: Verificar que los productos seleccionados aparezcan correctamente en el carrito
+    Given El usuario ha agregado productos al carrito
+    When Accede al carrito de compras
+    Then Deberían aparecer los productos seleccionados correctamente en el carrito
 
 
 Feature: usuario puede hacer checkout a su carrito de compras
@@ -96,6 +124,21 @@ Feature: usuario puede hacer checkout a su carrito de compras
 	Then debera aparecer un formulario para digitar su informacion
 	And el resumen de la compra, para finalizarlo se da click en el boton "Finish"
 	And observa el siguiente mensaje "Thank you for your order!"
+
+    Scenario: Formulario de Orden de Pedido
+    Given El usuario ha decicido confirmar una compra
+    When hace 'checkout'
+    Then Debería diligenciar el formulario de orden de pedido: nombre, Apellido, Código postal
+
+	Scenario: resumen del pedido antes de la confirmación
+    Given El usuario ha agregado productos al carrito
+    When Revisa el resumen del pedido antes de la confirmación
+    Then Debería ver la lista de productos seleccionados y su cantidad
+
+    Scenario: Verificar que el total del pedido sea preciso
+    Given El usuario ha revisado el resumen del pedido
+    When Confirma la compra
+    Then La página de confirmación debería mostrar el total del pedido de forma precisa
 
 	Scenario: checkout invalido
 	Given como un usuario logueado satisfactoriamente
